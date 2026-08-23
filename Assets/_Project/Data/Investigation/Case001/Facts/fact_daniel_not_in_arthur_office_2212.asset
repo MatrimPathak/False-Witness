@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6185be091da446db4af1f001e257d3, type: 3}
-  m_Name: fact_arthur_alive_when_daniel_returned
+  m_Name: fact_daniel_not_in_arthur_office_2212
   m_EditorClassIdentifier: FalseWitness.Investigation::FalseWitness.Investigation.FactDefinition
-  factId: fact_arthur_alive_when_daniel_returned
-  description: Arthur was still alive when Daniel returned to the lobby.
-  conflictingFacts: []
+  factId: fact_daniel_not_in_arthur_office_2212
+  description: Daniel did not enter Arthur's office that night.
+  conflictingFacts:
+  - {fileID: 11400000, guid: aefc61027fcca4f6c9a70471cb9e0281, type: 2}

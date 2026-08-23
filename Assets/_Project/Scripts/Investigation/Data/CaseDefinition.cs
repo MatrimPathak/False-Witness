@@ -11,11 +11,13 @@ namespace FalseWitness.Investigation
         [SerializeField, TextArea] private string description;
         [SerializeField] private List<SuspectDefinition> suspects = new();
         [SerializeField] private List<EvidenceDefinition> evidence = new();
+        [SerializeField] private CaseSolution solution;
 
         public string CaseId => caseId;
         public string Title => title;
         public string Description => description;
         public IReadOnlyList<SuspectDefinition> Suspects => suspects;
         public IReadOnlyList<EvidenceDefinition> Evidence => evidence;
+        public CaseSolution Solution => solution;
     }
 }

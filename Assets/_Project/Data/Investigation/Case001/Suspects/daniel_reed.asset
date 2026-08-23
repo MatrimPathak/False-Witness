@@ -25,5 +25,5 @@ MonoBehaviour:
     text: I didn't enter the service corridor after 10 PM.
     associatedFact: {fileID: 11400000, guid: 422a238e7832d47f88ab2fef266afe75, type: 2}
   - statementId: daniel_03
-    text: Arthur was still alive when I returned to the lobby.
+    text: I never went into Arthur's office that night.
     associatedFact: {fileID: 11400000, guid: eac1dc89d9901462fa33e810c917bc12, type: 2}

@@ -54,6 +54,29 @@ namespace FalseWitness.Investigation.Tests
             return caseDefinition;
         }
 
+        public static SuspectDefinition CreateSuspect(string suspectId, string suspectName, params Statement[] statements)
+        {
+            var suspect = ScriptableObject.CreateInstance<SuspectDefinition>();
+            SetField(suspect, "suspectId", suspectId);
+            SetField(suspect, "suspectName", suspectName);
+            SetField(suspect, "statements", new List<Statement>(statements));
+            return suspect;
+        }
+
+        public static CaseSolution CreateCaseSolution(SuspectDefinition correctSuspect, EvidenceDefinition[] requiredEvidence, FactDefinition[] requiredFacts)
+        {
+            var solution = ScriptableObject.CreateInstance<CaseSolution>();
+            SetField(solution, "correctSuspect", correctSuspect);
+            SetField(solution, "requiredEvidence", new List<EvidenceDefinition>(requiredEvidence));
+            SetField(solution, "requiredFacts", new List<FactDefinition>(requiredFacts));
+            return solution;
+        }
+
+        public static void AttachSolution(CaseDefinition caseDefinition, CaseSolution solution)
+        {
+            SetField(caseDefinition, "solution", solution);
+        }
+
         private static void SetField(object target, string fieldName, object value)
         {
             var field = target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
