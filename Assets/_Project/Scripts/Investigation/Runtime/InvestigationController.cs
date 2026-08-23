@@ -86,6 +86,42 @@ namespace FalseWitness.Investigation
             return supported ? StatementStatus.Supported : StatementStatus.Unknown;
         }
 
+        /// <summary>
+        /// Evaluates the relationship between a single statement and a single piece of
+        /// evidence, for the player-driven "present evidence against statement" action.
+        /// Unlike <see cref="GetStatementStatus"/>, this does not aggregate over all
+        /// discovered evidence - it answers only for the exact pairing presented, so the
+        /// deduction stays with the player rather than being surfaced automatically.
+        /// A contradiction takes priority over a supporting match if both are present.
+        /// </summary>
+        public PresentationResult EvaluatePresentation(Statement statement, EvidenceDefinition evidence)
+        {
+            if (statement?.AssociatedFact == null || evidence == null ||
+                !HasHeardStatement(statement) || !IsEvidenceDiscovered(evidence))
+            {
+                return PresentationResult.Invalid;
+            }
+
+            var statementFact = statement.AssociatedFact;
+            var supported = false;
+
+            foreach (var fact in evidence.AssociatedFacts)
+            {
+                if (fact == null) continue;
+
+                if (fact == statementFact)
+                {
+                    supported = true;
+                }
+                else if (FactsConflict(fact, statementFact))
+                {
+                    return PresentationResult.Contradicts;
+                }
+            }
+
+            return supported ? PresentationResult.Supports : PresentationResult.Unknown;
+        }
+
         private static bool FactsConflict(FactDefinition a, FactDefinition b)
         {
             return ContainsFact(a.ConflictingFacts, b) || ContainsFact(b.ConflictingFacts, a);
