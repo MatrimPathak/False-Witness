@@ -180,5 +180,172 @@ namespace FalseWitness.Investigation.Tests
             CollectionAssert.Contains(discovered, unrelatedEvidenceB);
             CollectionAssert.Contains(discovered, supportingEvidence);
         }
+
+        [Test]
+        public void EvaluatePresentation_NullStatement_ReturnsInvalid()
+        {
+            var fact = InvestigationTestFactory.CreateFact("fact-1");
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", fact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Invalid, controller.EvaluatePresentation(null, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_NullEvidence_ReturnsInvalid()
+        {
+            var fact = InvestigationTestFactory.CreateFact("fact-1");
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", fact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1"));
+
+            controller.HearStatement(statement);
+
+            Assert.AreEqual(PresentationResult.Invalid, controller.EvaluatePresentation(statement, null));
+        }
+
+        [Test]
+        public void EvaluatePresentation_StatementNotHeard_ReturnsInvalid()
+        {
+            var fact = InvestigationTestFactory.CreateFact("fact-1");
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", fact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", fact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.DiscoverEvidence(evidence);
+            // HearStatement intentionally not called.
+
+            Assert.AreEqual(PresentationResult.Invalid, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_EvidenceNotDiscovered_ReturnsInvalid()
+        {
+            var fact = InvestigationTestFactory.CreateFact("fact-1");
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", fact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", fact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            // DiscoverEvidence intentionally not called.
+
+            Assert.AreEqual(PresentationResult.Invalid, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_StatementWithoutFact_ReturnsInvalid()
+        {
+            var fact = InvestigationTestFactory.CreateFact("fact-1");
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", fact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", null);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Invalid, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_MatchingFact_ReturnsSupports()
+        {
+            var fact = InvestigationTestFactory.CreateFact("fact-1");
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", fact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", fact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Supports, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_ConflictingFact_ReturnsContradicts()
+        {
+            var statementFact = InvestigationTestFactory.CreateFact("fact-statement");
+            var conflictingFact = InvestigationTestFactory.CreateFact("fact-conflict");
+            InvestigationTestFactory.SetConflictingFacts(statementFact, conflictingFact);
+            InvestigationTestFactory.SetConflictingFacts(conflictingFact, statementFact);
+
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", conflictingFact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", statementFact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Contradicts, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_NeitherMatchingNorConflicting_ReturnsUnknown()
+        {
+            var statementFact = InvestigationTestFactory.CreateFact("fact-statement");
+            var unrelatedFact = InvestigationTestFactory.CreateFact("fact-unrelated");
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", unrelatedFact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", statementFact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Unknown, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_ConflictDeclaredOnlyOnStatementFact_ReturnsContradicts()
+        {
+            var statementFact = InvestigationTestFactory.CreateFact("fact-statement");
+            var evidenceFact = InvestigationTestFactory.CreateFact("fact-evidence");
+            InvestigationTestFactory.SetConflictingFacts(statementFact, evidenceFact);
+            // evidenceFact.ConflictingFacts intentionally left empty - conflict declared one-sided.
+
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", evidenceFact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", statementFact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Contradicts, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_ConflictDeclaredOnlyOnEvidenceFact_ReturnsContradicts()
+        {
+            var statementFact = InvestigationTestFactory.CreateFact("fact-statement");
+            var evidenceFact = InvestigationTestFactory.CreateFact("fact-evidence");
+            InvestigationTestFactory.SetConflictingFacts(evidenceFact, statementFact);
+            // statementFact.ConflictingFacts intentionally left empty - conflict declared one-sided.
+
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", evidenceFact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", statementFact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Contradicts, controller.EvaluatePresentation(statement, evidence));
+        }
+
+        [Test]
+        public void EvaluatePresentation_SupportingAndConflictingFactsOnSameEvidence_ReturnsContradicts()
+        {
+            var statementFact = InvestigationTestFactory.CreateFact("fact-statement");
+            var conflictingFact = InvestigationTestFactory.CreateFact("fact-conflict");
+            InvestigationTestFactory.SetConflictingFacts(statementFact, conflictingFact);
+            InvestigationTestFactory.SetConflictingFacts(conflictingFact, statementFact);
+
+            var evidence = InvestigationTestFactory.CreateEvidence("ev-1", "Evidence", statementFact, conflictingFact);
+            var statement = InvestigationTestFactory.CreateStatement("st-1", "text", statementFact);
+            var controller = new InvestigationController(InvestigationTestFactory.CreateCase("case-1", evidence));
+
+            controller.HearStatement(statement);
+            controller.DiscoverEvidence(evidence);
+
+            Assert.AreEqual(PresentationResult.Contradicts, controller.EvaluatePresentation(statement, evidence));
+        }
     }
 }
