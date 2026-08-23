@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c135eab228440de99563fcb7378650, type: 3}
+  m_Name: case_001_1015_murder
+  m_EditorClassIdentifier: FalseWitness.Investigation::FalseWitness.Investigation.CaseDefinition
+  caseId: case_001_1015_murder
+  title: The 10:15 Murder
+  description: A storm has trapped everyone inside the Blackwood Hotel. At 10:30
+    PM, hotel owner Arthur Blackwood is found dead inside his office. Three people
+    had motive and opportunity. Determine who is lying and identify the murderer.
+  suspects:
+  - {fileID: 11400000, guid: efab48cb2e1154521b55acdc72445d1d, type: 2}
+  - {fileID: 11400000, guid: 718ae77ad70224ac795920bdd51b4b84, type: 2}
+  - {fileID: 11400000, guid: 5c7e5d5a198d0470e9fa8666da70c7b6, type: 2}
+  evidence:
+  - {fileID: 11400000, guid: 885b27a25d28f45abba25bfe623e1043, type: 2}
+  - {fileID: 11400000, guid: 5b67d09a6b1c4416e9a8f0d92eda6d06, type: 2}
+  - {fileID: 11400000, guid: af22f6ae1065e4052bddd748b7902cd2, type: 2}
+  - {fileID: 11400000, guid: b9738f83260b7472eb81f1760d0320f2, type: 2}
+  - {fileID: 11400000, guid: 24d650bc59eb84fe9b17fa7b96df1c3a, type: 2}

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0779455567d40118380dddde3cd7b7, type: 3}
+  m_Name: marcus_hale
+  m_EditorClassIdentifier: FalseWitness.Investigation::FalseWitness.Investigation.SuspectDefinition
+  suspectId: marcus_hale
+  suspectName: Marcus Hale
+  description: Night security guard. Arthur had threatened to fire Marcus after repeated
+    security violations.
+  portrait: {fileID: 0}
+  statements:
+  - statementId: marcus_01
+    text: I started my security shift at 10 PM.
+    associatedFact: {fileID: 11400000, guid: 17708c332d8314f56a305b0ffec51f77, type: 2}
+  - statementId: marcus_02
+    text: I was monitoring the lobby cameras around 10:15.
+    associatedFact: {fileID: 11400000, guid: 0c2aea8379da440ccaeb1c860d1e3981, type: 2}
+  - statementId: marcus_03
+    text: The CCTV system was working normally that night.
+    associatedFact: {fileID: 11400000, guid: c4d298ddfa3524348bf90c27133709a1, type: 2}

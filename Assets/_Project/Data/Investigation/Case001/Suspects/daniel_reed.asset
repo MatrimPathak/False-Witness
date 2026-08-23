@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0779455567d40118380dddde3cd7b7, type: 3}
+  m_Name: daniel_reed
+  m_EditorClassIdentifier: FalseWitness.Investigation::FalseWitness.Investigation.SuspectDefinition
+  suspectId: daniel_reed
+  suspectName: Daniel Reed
+  description: Manager of the Blackwood Hotel. Arthur had discovered Daniel was stealing
+    money from the hotel.
+  portrait: {fileID: 0}
+  statements:
+  - statementId: daniel_01
+    text: I was helping Mrs. Wilson with her luggage around 10:15.
+    associatedFact: {fileID: 11400000, guid: 5aab8f21be41f4ff489f9a8084f20a90, type: 2}
+  - statementId: daniel_02
+    text: I didn't enter the service corridor after 10 PM.
+    associatedFact: {fileID: 11400000, guid: 422a238e7832d47f88ab2fef266afe75, type: 2}
+  - statementId: daniel_03
+    text: Arthur was still alive when I returned to the lobby.
+    associatedFact: {fileID: 11400000, guid: eac1dc89d9901462fa33e810c917bc12, type: 2}
