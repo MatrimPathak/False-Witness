@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6185be091da446db4af1f001e257d3, type: 3}
-  m_Name: fact_daniel_entered_office_2212
+  m_Name: fact_daniel_opened_arthur_office_2212
   m_EditorClassIdentifier: FalseWitness.Investigation::FalseWitness.Investigation.FactDefinition
-  factId: fact_daniel_entered_office_2212
-  description: The master key was used to open Arthur's office at 10:12 PM.
+  factId: fact_daniel_opened_arthur_office_2212
+  description: Daniel's master key opened Arthur's office at 10:12 PM.
   conflictingFacts: []

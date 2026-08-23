@@ -8,6 +8,7 @@ namespace FalseWitness.Investigation
         private readonly CaseDefinition activeCase;
         private readonly HashSet<string> discoveredEvidenceIds = new();
         private readonly HashSet<string> heardStatementIds = new();
+        private readonly HashSet<string> establishedFactIds = new();
 
         public InvestigationState(CaseDefinition activeCase)
         {
@@ -21,5 +22,8 @@ namespace FalseWitness.Investigation
 
         public bool HasHeardStatement(string statementId) => heardStatementIds.Contains(statementId);
         public void MarkStatementHeard(string statementId) => heardStatementIds.Add(statementId);
+
+        public bool IsFactEstablished(string factId) => establishedFactIds.Contains(factId);
+        public void MarkFactEstablished(string factId) => establishedFactIds.Add(factId);
     }
 }

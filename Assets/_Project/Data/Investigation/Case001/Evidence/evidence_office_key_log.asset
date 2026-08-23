@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: FalseWitness.Investigation::FalseWitness.Investigation.EvidenceDefinition
   evidenceId: evidence_office_key_log
   evidenceName: Arthur's Office Key Log
-  description: The master key was used to open Arthur's office at 10:12 PM.
+  description: Daniel's master key was used to open Arthur's office at 10:12 PM.
   associatedFacts:
   - {fileID: 11400000, guid: aefc61027fcca4f6c9a70471cb9e0281, type: 2}
